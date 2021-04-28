@@ -5,9 +5,10 @@ import { useLayoutEffect, useEffect } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { Avatar } from 'react-native-elements';
 import {auth, db } from '../Firebase';
-import {AntDesign,SimpleLineIcons} from '@expo/vector-icons'
+import {AntDesign,SimpleLineIcons,Ionicons} from '@expo/vector-icons'
 import { useState } from 'react';
 import { SafeAreaView } from 'react-native';
+import { StatusBar } from "expo-status-bar";
 
 const Home = ({navigation}) => {
   const [chats,setChats] = useState([]);
@@ -36,7 +37,7 @@ useLayoutEffect(()=>{
       headerTitleStyle: { color: "white" },
       headerTintColor: "white",
       headerLeft: () => (
-        <View style={{ padding: 15 }}>
+        <View style={{width:95 ,paddingLeft:10}}>
           <TouchableOpacity activeOpacity={0.5} onPress={signOutUSer}>
             <Avatar
               rounded
@@ -47,13 +48,17 @@ useLayoutEffect(()=>{
         </View>
       ),
       headerRight: () => (
-        <View style={{ paddingRight: 15 ,
-        flexDirection: 'row',alignItems:'center',justifyContent:'space-between',width:80}}>
+        <View style={{  
+        flexDirection: 'row',
+        alignItems:'center',
+        justifyContent:'space-between',
+        width:85,
+        paddingRight:10}}>
           <TouchableOpacity activeOpacity={0.5}>
-            <AntDesign name="camerao" size={28} color="white" />
+            <AntDesign name="camera" size={29} color="white" />
           </TouchableOpacity>
           <TouchableOpacity onPress={()=>navigation.navigate('AddChat')} activeOpacity={0.5}>
-            <SimpleLineIcons name="pencil" size={24} color="white" />
+            <Ionicons name="create" size={29} color="white" />
           </TouchableOpacity>
         </View>
       ),
@@ -69,6 +74,7 @@ const enterChat = (id,chatName) => {
 
     return (
       <SafeAreaView>
+        <StatusBar style="light"/>
         <ScrollView style={styles.container}>
           {chats.map(({ id, data: { chatName } }) => (
             <CustomList key ={id} id={id} chatName={chatName} enterChat={enterChat}

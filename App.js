@@ -21,7 +21,7 @@ export default function App() {
           options={{
             headerTitle: () => (
               <Text
-                style={{ fontWeight: "bold", fontSize: 18, color: "white" }}
+                style={{ fontWeight: "bold", fontSize: 25, color: "white" ,textAlign:'center'}}
               >
                 Signal
               </Text>
