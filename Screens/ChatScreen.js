@@ -1,57 +1,67 @@
-import { Navigation } from '@material-ui/icons'
-import React,{useLayoutEffect,useState} from 'react'
-import { TouchableOpacity, SafeAreaView ,TouchableWithoutFeedback} from 'react-native';
-import { StyleSheet, Text, View } from 'react-native'
-import { Avatar } from 'react-native-elements/dist/avatar/Avatar'
-import { AntDesign,FontAwesome,Ionicons } from '@expo/vector-icons';
-import { KeyboardAvoidingView } from 'react-native';
-import { Platform } from 'react-native';
-import { ScrollView } from 'react-native';
-import { TextInput } from 'react-native';
-import { Keyboard } from 'react-native';
-import { db , auth } from '../Firebase';
-import * as firebase from 'firebase';
-
+import React, { useEffect, useLayoutEffect, useState } from "react";
+import {
+  Keyboard,
+  SafeAreaView,
+  Touchable,
+  TouchableOpacity,
+} from "react-native";
+import { StyleSheet, Text, View, TextInput, ScrollView } from "react-native";
+import { Avatar } from "react-native-elements/dist/avatar/Avatar";
+import {
+  AntDesign,
+  SimpleLineIcons,
+  FontAwesome,
+  Ionicons,
+} from "@expo/vector-icons";
+import { KeyboardAvoidingView } from "react-native";
+import { TouchableWithoutFeedback } from "react-native";
+import { db, auth } from "../Firebase";
+import * as firebase from "firebase";
 
 const ChatScreen = ({ navigation, route }) => {
   const [input, setInput] = useState("");
+  const [messages, setMessages] = useState([]);
+
   useLayoutEffect(() => {
     navigation.setOptions({
       title: "Chat",
       headerStyle: { backgroundColor: "dodgerblue" },
       headerTintColor: "white",
-      headerTitleAlign: "left",
       headerBackTitleVisible: false,
+      headerTitleAlign: "left",
       headerTitle: () => (
         <View style={{ flexDirection: "row", alignItems: "center" }}>
           <Avatar
             rounded
             size={40}
             source={{
-              uri:
-                "https://p7.hiclipart.com/preview/7/618/505/avatar-icon-fashion-men-vector-avatar.jpg",
+              uri: messages[0]?.data.photoURL,
+                
             }}
           />
           <Text
             style={{
-              color: "white",
-              marginLeft: 10,
               fontWeight: "700",
               fontSize: 20,
+              color: "white",
+              marginLeft: 10,
             }}
           >
             {route.params.chatName}
           </Text>
         </View>
       ),
+
       headerLeft: () => (
         <TouchableOpacity
+          activeOpacity={0.5}
           style={{ marginLeft: 15 }}
           onPress={navigation.goBack}
         >
           <AntDesign name="leftcircle" color="white" size={25} />
         </TouchableOpacity>
       ),
+
       headerRight: () => (
         <View
           style={{
@@ -62,29 +72,48 @@ const ChatScreen = ({ navigation, route }) => {
             paddingRight: 15,
           }}
         >
-          <TouchableOpacity>
+          <TouchableOpacity activeOpacity={0.5}>
             <FontAwesome name="video-camera" size={24} color="white" />
           </TouchableOpacity>
-          <TouchableOpacity>
+          <TouchableOpacity activeOpacity={0.5}>
             <Ionicons name="call" size={24} color="white" />
           </TouchableOpacity>
         </View>
       ),
     });
-  }, [navigation]);
+  }, [navigation, messages]);
 
   const sendMessage = () => {
     Keyboard.dismiss();
-    db.collection('chats').doc(route.params.id).collection('messages').add({
-        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-        message : input ,
-        displayName : auth.currentUser.displayName,
-        email:auth.currentUser.email,
-        photoURl:auth.currentUser.photoURL,
-    })
-    setInput('')
+
+    db.collection("chats").doc(route.params.id).collection("messages").add({
+      timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      message: input,
+      displayName: auth.currentUser.displayName,
+      email: auth.currentUser.email,
+      photoURL: auth.currentUser.photoURL,
+    });
+
+    setInput("");
   };
-  
+
+  useLayoutEffect(() => {
+    const unsubscribe = db
+      .collection("chats")
+      .doc(route.params.id)
+      .collection("messages")
+      .orderBy("timestamp",'desc')
+      .onSnapshot((snapshot) =>
+        setMessages(
+          snapshot.docs.map((doc) => ({
+            id: doc.id,
+            data: doc.data(),
+          }))
+        )
+      );
+    return unsubscribe;
+  }, [route]);
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <KeyboardAvoidingView
@@ -93,20 +122,61 @@ const ChatScreen = ({ navigation, route }) => {
         keyboardVerticalOffset={90}
       >
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <>
-          <ScrollView>{/* chats */}</ScrollView>
-          <View style={styles.footer}>
-            <TextInput
-              placeholder="Enter message"
-              value={input}
-              style={styles.inmsg}
-              onChangeText={(text) => setInput(text)}
-              onSubmitEditing={sendMessage}
-            />
-            <TouchableOpacity onPress={sendMessage} activeOpacity={0.5}>
-              <Ionicons name="send" size={26} color="dodgerblue" />
-            </TouchableOpacity>
-          </View>
+          <>
+            <ScrollView contentContainerStyle={{ padding: 10 }}>
+              {messages.map(({ id, data }) =>
+                data.email === auth.currentUser.email ? (
+                  <View key={id} style={styles.sender}>
+                    <Avatar
+                      rounded
+                      // web
+                      containerStyle={{
+                        position: "absolute",
+                        bottom: -15,
+                        right: -5,
+                      }}
+                      size={25}
+                      position="absolute"
+                      bottom={-15}
+                      right={-5}
+                      source={{ uri: data.photoURL }}
+                    />
+                    <Text>{data.message}</Text>
+                  </View>
+                ) : (
+                  <View key={id} style={styles.receiver}>
+                    <Avatar
+                      rounded
+                      // web
+                      containerStyle={{
+                        position: "absolute",
+                        bottom: -15,
+                        right: -5,
+                      }}
+                      size={25}
+                      position="absolute"
+                      bottom={-15}
+                      right={-5}
+                      source={{ uri: data.photoURL }}
+                    />
+                    <Text>{data.message}</Text>
+                    <Text>{data.displayName}</Text>
+                  </View>
+                )
+              )}
+            </ScrollView>
+            <View style={styles.footer}>
+              <TextInput
+                placeholder="Enter message"
+                value={input}
+                style={styles.inmsg}
+                onSubmitEditing={sendMessage}
+                onChangeText={(text) => setInput(text)}
+              />
+              <TouchableOpacity onPress={sendMessage} activeOpacity={0.5}>
+                <Ionicons name="send" size={26} color="dodgerblue" />
+              </TouchableOpacity>
+            </View>
           </>
         </TouchableWithoutFeedback>
       </KeyboardAvoidingView>
@@ -140,5 +210,25 @@ const styles = StyleSheet.create({
     color: "black",
     borderRadius: 30,
     backgroundColor: "#edeef7",
+  },
+  sender: {
+    padding: 15,
+    alignSelf: "flex-end",
+    backgroundColor: "dodgerblue",
+    borderRadius: 20,
+    marginRight: 15,
+    maxWidth: "80%",
+    position: "relative",
+    marginBottom: 20,
+  },
+  receiver: {
+    padding: 15,
+    alignSelf: "flex-start",
+    backgroundColor: "grey",
+    borderRadius: 20,
+    marginRight: 15,
+    maxWidth: "80%",
+    position: "relative",
+    marginBottom: 20,
   },
 });

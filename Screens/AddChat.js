@@ -36,7 +36,7 @@ const createChat =async()=>{
             
             />
 
-            <Button onPress={createChat}
+            <Button disabled={!input} onPress={createChat}
             title="Create Chat"/>
         </View>
     )
