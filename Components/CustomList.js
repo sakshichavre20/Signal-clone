@@ -10,13 +10,13 @@ const CustomList = ({id,chatName,enterChat}) => {
 
   useEffect(()=>{
     const unsubscribe = db
-    .collection('chats')
-    .doc(id)
-    .collection('messages')
-    .orderBy('timestamp')
-    .onSnapshot((snapshot) => 
-      setChatMessages(snapshot.docs.map(doc=> doc.data()))
-    );
+      .collection("chats")
+      .doc(id)
+      .collection("messages")
+      .orderBy("timestamp", "desc")
+      .onSnapshot((snapshot) =>
+        setChatMessages(snapshot.docs.map((doc) => doc.data()))
+      );
     return unsubscribe;
   })
     

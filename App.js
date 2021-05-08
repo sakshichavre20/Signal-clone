@@ -13,23 +13,48 @@ export default function App() {
   return (
     <NavigationContainer>
       <Stack.Navigator /*initialRouteName={"Home"}*/>
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Signup" component={Signup} />
+        <Stack.Screen
+          name="Login"
+          component={Login}
+          options={{
+            headerShown: false,
+          }}
+        />
+        <Stack.Screen
+          name="Signup"
+          component={Signup}
+          options={{
+            headerShown: false,
+          }}
+        />
         <Stack.Screen
           name="Home"
           component={Home}
           options={{
             headerTitle: () => (
               <Text
-                style={{ fontWeight: "bold", fontSize: 25, color: "white" ,textAlign:'center'}}
+                style={{
+                  fontWeight: "bold",
+                  fontSize: 25,
+                  color: "white",
+                  textAlign: "center",
+                }}
               >
                 Signal
               </Text>
             ),
           }}
         />
-        <Stack.Screen name="AddChat" component={AddChat} />
-        <Stack.Screen name="Chat" component={ChatScreen} />
+        <Stack.Screen
+          name="AddChat"
+          component={AddChat}
+          
+        />
+        <Stack.Screen
+          name="Chat"
+          component={ChatScreen}
+          
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );

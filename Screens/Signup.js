@@ -5,8 +5,11 @@ import {
   View,
   KeyboardAvoidingView,
   Image,
+  ImageBackground,
+  TextInput,
+  TouchableOpacity
 } from "react-native";
-import { Button, Input } from "react-native-elements";
+import { Button } from "react-native-elements";
 import {auth } from '../Firebase'
 import Login from './Login';
 const Signup = ({navigation}) => {
@@ -35,44 +38,51 @@ useLayoutEffect(()=>{
   };
   return (
     <KeyboardAvoidingView behaviour="padding" style={styles.container}>
-      <Image
+      <ImageBackground
+        mode="cover"
+        style={styles.background}
         source={{
           uri:
-            "https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Signal-Logo.svg/600px-Signal-Logo.svg.png",
+            "https://images.pexels.com/photos/1131458/pexels-photo-1131458.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
         }}
-        style={styles.img}
-      />
-      <Input
-        placeholder="name"
-        type="name"
-        value={name}
-        onChangeText={(text) => setName(text)}
-      />
-      <Input
-        placeholder="Email"
-        type="email"
-        value={email}
-        onChangeText={(text) => setEmail(text)}
-      />
-      <Input
-        placeholder="password"
-        secureTextEntry
-        type="password"
-        value={password}
-        onChangeText={(text) => setPassword(text)}
-      />
-      <Input
-        placeholder="ImageUrl (optional)"
-        type="imageUrl"
-        value={imageUrl}
-        onChangeText={(text) => setImageUrl(text)}
-        onSubmitEditing={register}
-      />
-      <Button title="Signup" onPress={register} />
-      <Button
-        title="Login"
-        onPress={() => navigation.navigate("Login")}
-      />
+      >
+        <TextInput
+          style={styles.inputContainer}
+          placeholder="UserName"
+          type="name"
+          value={name}
+          onChangeText={(text) => setName(text)}
+        />
+        <TextInput
+          style={styles.inputContainer}
+          placeholder="Email"
+          type="email"
+          value={email}
+          onChangeText={(text) => setEmail(text)}
+        />
+        <TextInput
+          style={styles.inputContainer}
+          placeholder="Password"
+          secureTextEntry
+          type="password"
+          value={password}
+          onChangeText={(text) => setPassword(text)}
+        />
+        <TextInput
+          style={styles.inputContainer}
+          placeholder="ImageUrl (optional)"
+          type="imageUrl"
+          value={imageUrl}
+          onChangeText={(text) => setImageUrl(text)}
+          onSubmitEditing={register}
+        />
+        <TouchableOpacity onPress={register}>
+          <View style={styles.button}>
+            <Text style={{ fontSize: 17, fontWeight: "bold" }}>SignUP</Text>
+          </View>
+        </TouchableOpacity>
+        
+      </ImageBackground>
     </KeyboardAvoidingView>
   );
 };
@@ -89,5 +99,36 @@ const styles = StyleSheet.create({
     width: 150,
     height: 150,
     marginBottom: 50,
+  },
+  background: {
+    height: "100%",
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  inputContainer: {
+    backgroundColor: "white",
+    height: 45,
+    width: "80%",
+    borderRadius: 20,
+    paddingLeft: 10,
+    color: "black",
+    fontSize: 15,
+    borderWidth: 2,
+    borderColor: "black",
+    borderBottomWidth: 4,
+    margin: 2,
+  },
+  button: {
+    backgroundColor: "#81b214",
+    height: 35,
+    width: 90,
+    alignItems: "center",
+    justifyContent: "center",
+    margin: 8,
+    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: "black",
+    borderBottomWidth: 4,
   },
 });
