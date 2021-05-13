@@ -9,9 +9,9 @@ import {
   TextInput,
   TouchableOpacity
 } from "react-native";
-import { Button } from "react-native-elements";
+
 import {auth } from '../Firebase'
-import Login from './Login';
+
 const Signup = ({navigation}) => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -42,8 +42,7 @@ useLayoutEffect(()=>{
         mode="cover"
         style={styles.background}
         source={{
-          uri:
-            "https://images.pexels.com/photos/1131458/pexels-photo-1131458.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+          uri: "http://www.allwhitebackground.com/images/7/Blue-Minimalist-Wallpaper-3840x2160-00263.jpg",
         }}
       >
         <TextInput
@@ -81,7 +80,6 @@ useLayoutEffect(()=>{
             <Text style={{ fontSize: 17, fontWeight: "bold" }}>SignUP</Text>
           </View>
         </TouchableOpacity>
-        
       </ImageBackground>
     </KeyboardAvoidingView>
   );
@@ -115,19 +113,19 @@ const styles = StyleSheet.create({
     color: "black",
     fontSize: 15,
     borderWidth: 2,
-    borderColor: "black",
+    borderColor: "#054686",
     borderBottomWidth: 4,
     margin: 2,
   },
   button: {
-    backgroundColor: "#81b214",
+    backgroundColor: "#FFFFFF",
     height: 35,
     width: 90,
     alignItems: "center",
     justifyContent: "center",
     margin: 8,
     borderRadius: 20,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: "black",
     borderBottomWidth: 4,
   },

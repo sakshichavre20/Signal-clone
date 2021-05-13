@@ -25,7 +25,8 @@ const ChatScreen = ({ navigation, route }) => {
   useLayoutEffect(() => {
     navigation.setOptions({
       title: "Chat",
-      headerStyle: { backgroundColor: "dodgerblue" },
+      headerStyle: { backgroundColor: "#98C56A",
+             },
       headerTintColor: "white",
       headerBackTitleVisible: false,
       headerTitleAlign: "left",
@@ -160,7 +161,7 @@ const ChatScreen = ({ navigation, route }) => {
                       source={{ uri: data.photoURL }}
                     />
                     <Text>{data.message}</Text>
-                    <Text>{data.displayName}</Text>
+                    <Text style={{fontSize:10, position:'relative',bottom:-10,textAlign:'right'}}>{data.displayName}</Text>
                   </View>
                 )
               )}
@@ -206,15 +207,15 @@ const styles = StyleSheet.create({
     height: 40,
     flex: 1,
     marginRight: 15,
-    borderColor: "transparent",
+    borderColor: "black",
     color: "black",
     borderRadius: 30,
-    backgroundColor: "#edeef7",
+    backgroundColor: "white",
   },
   sender: {
     padding: 15,
     alignSelf: "flex-end",
-    backgroundColor: "dodgerblue",
+    backgroundColor: "#0170A8",
     borderRadius: 20,
     marginRight: 15,
     maxWidth: "80%",
@@ -224,7 +225,7 @@ const styles = StyleSheet.create({
   receiver: {
     padding: 15,
     alignSelf: "flex-start",
-    backgroundColor: "grey",
+    backgroundColor: "#C2FAF9",
     borderRadius: 20,
     marginRight: 15,
     maxWidth: "80%",

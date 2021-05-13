@@ -32,8 +32,7 @@ const Login = ({navigation}) => {
           mode="cover"
           style={styles.background}
           source={{
-            uri:
-              "https://images.pexels.com/photos/1131458/pexels-photo-1131458.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=650&w=940",
+            uri: "http://www.allwhitebackground.com/images/7/Blue-Minimalist-Wallpaper-3840x2160-00263.jpg",
           }}
         >
           <TextInput
@@ -95,21 +94,21 @@ const styles = StyleSheet.create({
     paddingLeft: 10,
     color: "black",
     fontSize: 15,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: "black",
     borderBottomWidth: 4,
     margin: 2,
   },
   button: {
-    backgroundColor: "white",
+    backgroundColor: "#FFFFFF",
     height: 35,
     width: 90,
     alignItems: "center",
     justifyContent: "center",
     margin: 8,
     borderRadius: 20,
-    borderWidth: 2,
-    borderColor: "black",
+    borderWidth: 1,
+    borderColor: "#054686",
     borderBottomWidth: 4,
   },
 });

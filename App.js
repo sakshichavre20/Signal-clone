@@ -35,12 +35,12 @@ export default function App() {
               <Text
                 style={{
                   fontWeight: "bold",
-                  fontSize: 25,
+                  fontSize: 22,
                   color: "white",
                   textAlign: "center",
                 }}
               >
-                Signal
+                Chat App
               </Text>
             ),
           }}

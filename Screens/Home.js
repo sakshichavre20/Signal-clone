@@ -32,12 +32,12 @@ const Home = ({navigation}) => {
 
 useLayoutEffect(()=>{
     navigation.setOptions({
-      title: "Signal",
-      headerStyle: { backgroundColor: "dodgerblue" },
+      title: "Chat App",
+      headerStyle: { backgroundColor: "#054686" },
       headerTitleStyle: { color: "white" },
       headerTintColor: "white",
       headerLeft: () => (
-        <View style={{width:95 ,paddingLeft:10}}>
+        <View style={{ width: 95, paddingLeft: 10 }}>
           <TouchableOpacity activeOpacity={0.5} onPress={signOutUSer}>
             <Avatar
               rounded
@@ -48,16 +48,22 @@ useLayoutEffect(()=>{
         </View>
       ),
       headerRight: () => (
-        <View style={{  
-        flexDirection: 'row',
-        alignItems:'center',
-        justifyContent:'space-between',
-        width:85,
-        paddingRight:10}}>
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: 85,
+            paddingRight: 10,
+          }}
+        >
           <TouchableOpacity activeOpacity={0.5}>
             <AntDesign name="camera" size={29} color="white" />
           </TouchableOpacity>
-          <TouchableOpacity onPress={()=>navigation.navigate('AddChat')} activeOpacity={0.5}>
+          <TouchableOpacity
+            onPress={() => navigation.navigate("AddChat")}
+            activeOpacity={0.5}
+          >
             <Ionicons name="create" size={29} color="white" />
           </TouchableOpacity>
         </View>
